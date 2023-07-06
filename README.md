@@ -2,6 +2,8 @@
 
 Comparing latency when using AWS CloudFront at long distances as opposed to calling a web service directly.
 
+> Cache is disabled to to force round trips to the server
+
 ```mermaid
 flowchart LR
     A(Client - sa-east-1) -->|Internet| B(AWS CloudFront <br/> Edge Location)
@@ -43,6 +45,5 @@ Create the infrastructure:
 terraform init
 terraform apply
 ```
-
 
 [1]: https://github.com/epomatti/stressbox
