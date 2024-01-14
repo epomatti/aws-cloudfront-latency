@@ -99,21 +99,17 @@ resource "aws_cloudfront_distribution" "lb_distribution" {
   }
 
   default_cache_behavior {
-    cache_policy_id  = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
-    allowed_methods  = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
-    cached_methods   = ["HEAD", "GET"]
-    target_origin_id = aws_apprunner_service.main.service_url
-    compress         = true
-
-    # forwarded_values {
-    #   query_string = true
-    #   headers      = ["Origin", "Authorization", "Host"]
-    #   cookies {
-    #     forward = "all"
-    #   }
-    # }
-
+    allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
+    cached_methods         = ["HEAD", "GET"]
+    target_origin_id       = aws_apprunner_service.main.service_url
+    compress               = true
     viewer_protocol_policy = "redirect-to-https"
+
+    # CachingDisabled
+    cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+
+    # UserAgentRefererHeaders
+    origin_request_policy_id = "acba4595-bd28-49b8-b9fe-13317c0390fa"
   }
 
   restrictions {
@@ -125,7 +121,5 @@ resource "aws_cloudfront_distribution" "lb_distribution" {
 
   viewer_certificate {
     cloudfront_default_certificate = true
-    # minimum_protocol_version       = "TLSv1.2_2021"
-    minimum_protocol_version = "TLSv1"
   }
 }
