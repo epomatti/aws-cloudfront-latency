@@ -1,7 +1,8 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
+      version = "5.32.1"
     }
   }
 }
@@ -11,12 +12,18 @@ provider "aws" {
 }
 
 ### App Runner ###
-
 resource "aws_apprunner_service" "main" {
   service_name = "service-latency-test"
 
+  instance_configuration {
+    cpu               = "1 vCPU"
+    memory            = "2 GB"
+    instance_role_arn = aws_iam_role.instance_role.arn
+  }
+
   source_configuration {
     auto_deployments_enabled = false
+
     image_repository {
       image_configuration {
         port = var.port
@@ -24,10 +31,29 @@ resource "aws_apprunner_service" "main" {
       image_identifier      = var.ecr_image
       image_repository_type = "ECR"
     }
+
     authentication_configuration {
       access_role_arn = aws_iam_role.access_role.arn
     }
   }
+}
+
+resource "aws_iam_role" "instance_role" {
+  name = "StressboxInstanceRole"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = "sts:AssumeRole"
+        Effect = "Allow"
+        Sid    = ""
+        Principal = {
+          Service = "tasks.apprunner.amazonaws.com"
+        }
+      },
+    ]
+  })
 }
 
 resource "aws_iam_role" "access_role" {
@@ -54,7 +80,6 @@ resource "aws_iam_role_policy_attachment" "access_role" {
 }
 
 ### CloudFront ###
-
 resource "aws_cloudfront_distribution" "lb_distribution" {
   enabled         = true
   is_ipv6_enabled = true

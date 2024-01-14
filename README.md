@@ -43,7 +43,22 @@ Create the infrastructure:
 
 ```sh
 terraform init
-terraform apply
+terraform apply -auto-approve
 ```
+
+Run latency and access tests.
+
+---
+
+### Clean-up
+
+Delete the resources:
+
+```sh
+terraform destroy -auto-approve
+
+aws ecr delete-repository --repository-name stressbox
+```
+
 
 [1]: https://github.com/epomatti/stressbox
