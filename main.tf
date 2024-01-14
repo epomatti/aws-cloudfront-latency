@@ -51,7 +51,7 @@ resource "aws_iam_role" "instance_role" {
         Principal = {
           Service = "tasks.apprunner.amazonaws.com"
         }
-      },
+      }
     ]
   })
 }
@@ -69,7 +69,7 @@ resource "aws_iam_role" "access_role" {
         Principal = {
           Service = "build.apprunner.amazonaws.com"
         }
-      },
+      }
     ]
   })
 }
