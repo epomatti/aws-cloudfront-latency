@@ -13,6 +13,8 @@ flowchart LR
 
 This project runs my [stressbox][1] image for testing as default. 
 
+## Setup
+
 Create a private ECR:
 
 ```sh
