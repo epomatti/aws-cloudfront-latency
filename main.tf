@@ -84,7 +84,7 @@ resource "aws_cloudfront_distribution" "lb_distribution" {
   enabled         = true
   is_ipv6_enabled = true
   price_class     = "PriceClass_All"
-  http_version    = "http2"
+  http_version    = "http2and3"
 
   origin {
     domain_name = aws_apprunner_service.main.service_url
