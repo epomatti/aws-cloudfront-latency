@@ -11,9 +11,10 @@ flowchart LR
     A -->|Internet| C
 ```
 
-This project runs my [stressbox][1] image for testing as default. 
 
 ## Setup
+
+This project runs my [stressbox][1] image for testing as default. 
 
 Create a private ECR:
 
