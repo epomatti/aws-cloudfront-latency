@@ -100,12 +100,38 @@ resource "aws_cloudfront_distribution" "lb_distribution" {
     }
   }
 
+  origin {
+    domain_name = "httpbin.org"
+    origin_id   = "httpbin.org"
+
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols   = ["TLSv1.2"]
+    }
+  }
+
   default_cache_behavior {
     allowed_methods        = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "PATCH", "DELETE"]
     cached_methods         = ["HEAD", "GET"]
     target_origin_id       = aws_apprunner_service.main.service_url
     compress               = true
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "https-only"
+
+    # CachingDisabled
+    cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
+
+    # UserAgentRefererHeaders
+    origin_request_policy_id = "acba4595-bd28-49b8-b9fe-13317c0390fa"
+  }
+
+  ordered_cache_behavior {
+    allowed_methods        = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+    cached_methods         = ["HEAD", "GET"]
+    target_origin_id       = "httpbin.org"
+    path_pattern           = "/get"
+    viewer_protocol_policy = "https-only"
 
     # CachingDisabled
     cache_policy_id = "4135ea2d-6df8-44a3-9df3-4b5a84be39ad"
