@@ -25,6 +25,9 @@ aws ecr create-repository --repository-name stressbox
 Pull the image and tag it with the repository name in the account:
 
 ```sh
+account=""
+region=""
+
 docker pull ghcr.io/epomatti/stressbox
 docker tag ghcr.io/epomatti/stressbox "$account.dkr.ecr.$region.amazonaws.com/stressbox"
 ```

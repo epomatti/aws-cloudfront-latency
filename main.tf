@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "5.32.1"
+      version = "5.33.0"
     }
   }
 }
@@ -36,6 +36,8 @@ resource "aws_apprunner_service" "main" {
       access_role_arn = aws_iam_role.access_role.arn
     }
   }
+
+  depends_on = [aws_iam_role_policy_attachment.access_role]
 }
 
 resource "aws_iam_role" "instance_role" {
