@@ -63,7 +63,7 @@ Delete the resources:
 ```sh
 terraform destroy -auto-approve
 
-aws ecr delete-repository --repository-name stressbox
+aws ecr delete-repository --repository-name stressbox --force
 ```
 
 TODO:
