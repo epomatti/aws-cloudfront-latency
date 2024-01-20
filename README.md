@@ -66,5 +66,11 @@ terraform destroy -auto-approve
 aws ecr delete-repository --repository-name stressbox
 ```
 
+TODO:
+
+```
+cloudfront custom origin slow response
+https://aws.amazon.com/blogs/networking-and-content-delivery/improve-your-website-performance-with-amazon-cloudfront/
+```
 
 [1]: https://github.com/epomatti/stressbox
